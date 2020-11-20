@@ -864,6 +864,7 @@ name = "libsignal-bridge"
 version = "0.1.0"
 dependencies = [
  "aes-gcm-siv",
+ "futures",
  "jni",
  "libc",
  "libsignal-protocol-rust",
@@ -877,7 +878,6 @@ dependencies = [
  "aes-gcm-siv",
  "async-trait",
  "cbindgen",
- "futures",
  "libc",
  "libsignal-bridge",
  "libsignal-protocol-rust",
@@ -893,7 +893,6 @@ version = "0.1.0"
 dependencies = [
  "aes-gcm-siv",
  "async-trait",
- "futures",
  "jni",
  "libsignal-bridge",
  "libsignal-protocol-rust",
