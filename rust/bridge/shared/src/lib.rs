@@ -7,6 +7,7 @@
 // #![deny(warnings)]
 
 use aes_gcm_siv::Aes256GcmSiv;
+use libsignal_bridge_macros::*;
 use libsignal_protocol_rust::*;
 use std::convert::TryFrom;
 
@@ -29,6 +30,11 @@ bridge_destroy!(ProtocolAddress, ffi = address);
 bridge_get_string!(name(ProtocolAddress), ffi = address_get_name =>
     |p| Ok(p.name())
 );
+
+#[bridge_fn(jni = "ProtocolAddress_1New")]
+fn address_new(name: String, device_id: u32) -> ProtocolAddress {
+    ProtocolAddress::new(name, device_id)
+}
 
 bridge_destroy!(PublicKey, ffi = publickey, jni = ECPublicKey);
 bridge_deserialize!(PublicKey::deserialize, ffi = publickey, jni = None);
