@@ -18,6 +18,11 @@ fn report_dependencies(crate_dir: &impl AsRef<Path>) {
     for entry in WalkDir::new(crate_path.parent().unwrap().join("shared").join("src")) {
         println!("cargo:rerun-if-changed={}", entry.unwrap().path().display());
     }
+
+    for entry in WalkDir::new(crate_path.parent().unwrap().join("shared").join("macros")) {
+        println!("cargo:rerun-if-changed={}", entry.unwrap().path().display());
+    }
+
     println!("cargo:rerun-if-changed=cbindgen.toml");
 }
 
