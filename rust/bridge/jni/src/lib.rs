@@ -8,7 +8,7 @@
 
 use async_trait::async_trait;
 use jni::objects::{JClass, JObject, JString, JValue};
-use jni::sys::{jboolean, jbyteArray, jint, jlong, jobject, jstring};
+use jni::sys::{jboolean, jbyteArray, jint, jlong, jobject};
 use jni::JNIEnv;
 use std::convert::TryFrom;
 
@@ -108,22 +108,6 @@ pub unsafe extern "C" fn Java_org_signal_client_internal_Native_IdentityKeyPair_
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn Java_org_signal_client_internal_Native_DisplayableFingerprint_1Format(
-    env: JNIEnv,
-    _class: JClass,
-    local: jbyteArray,
-    remote: jbyteArray,
-) -> jstring {
-    run_ffi_safe(&env, || {
-        let local = env.convert_byte_array(local)?;
-        let remote = env.convert_byte_array(remote)?;
-        let fingerprint = DisplayableFingerprint::new(&local, &remote)?;
-        let result = env.new_string(format!("{}", fingerprint))?;
-        Ok(result.into_inner())
-    })
-}
-
-#[no_mangle]
 pub unsafe extern "C" fn Java_org_signal_client_internal_Native_NumericFingerprintGenerator_1New(
     env: JNIEnv,
     _class: JClass,
@@ -156,22 +140,6 @@ pub unsafe extern "C" fn Java_org_signal_client_internal_Native_NumericFingerpri
         )?;
 
         box_object::<Fingerprint>(Ok(fprint))
-    })
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn Java_org_signal_client_internal_Native_ScannableFingerprint_1Compare(
-    env: JNIEnv,
-    _class: JClass,
-    fprint1: jbyteArray,
-    fprint2: jbyteArray,
-) -> jboolean {
-    run_ffi_safe(&env, || {
-        let fprint1 = env.convert_byte_array(fprint1)?;
-        let fprint2 = env.convert_byte_array(fprint2)?;
-
-        let fprint1 = ScannableFingerprint::deserialize(&fprint1)?;
-        Ok(fprint1.compare(&fprint2)? as jboolean)
     })
 }
 
